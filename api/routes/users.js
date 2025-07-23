@@ -1,7 +1,12 @@
-import express from 'express'
-import { userController } from '../controllers/UserController';
-import {apikeyMiddleware}  from '../middlewares/apikey.middleware';
-const router= express.Router();
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const UserController_1 = require("../controllers/UserController");
+const apikey_middleware_1 = require("../middlewares/apikey.middleware");
+const router = express_1.default.Router();
 /**
  * @swagger
  * /users:
@@ -11,8 +16,7 @@ const router= express.Router();
  *       200:
  *         description: List of users
  */
-
-router.get('/',userController.get);
+router.get('/', UserController_1.userController.get);
 /**
  * @swagger
  * /users:
@@ -52,8 +56,7 @@ router.get('/',userController.get);
  *       201:
  *         description: User created
 */
-router.post('/', apikeyMiddleware , userController.create);
-
+router.post('/', apikey_middleware_1.apikeyMiddleware, UserController_1.userController.create);
 /**
  * @swagger
  * /users/{id}:
@@ -72,13 +75,12 @@ router.post('/', apikeyMiddleware , userController.create);
  *         required: true
  *         schema:
  *           type: string
- * 
+ *
  *     responses:
  *       201:
  *         description: User created
 */
-router.delete('/:id', apikeyMiddleware , userController.delete);
-
+router.delete('/:id', apikey_middleware_1.apikeyMiddleware, UserController_1.userController.delete);
 /**
  * @swagger
  * /users/{id}:
@@ -115,6 +117,5 @@ router.delete('/:id', apikeyMiddleware , userController.delete);
  *       201:
  *         description: User created
 */
-router.post('/', apikeyMiddleware , userController.update);
-
-export default router;
+router.post('/', apikey_middleware_1.apikeyMiddleware, UserController_1.userController.update);
+exports.default = router;
