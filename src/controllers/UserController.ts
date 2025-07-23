@@ -41,10 +41,11 @@ export const userController = {
     },
     update: async (req: Request, res: Response) => {
         try {
+            let id = req.params.id || undefined;
             const { name, email, password } = req.body;
             const result = await pool.query(
-                'UPDATE users set  RETURNING *',
-                [name, email, password, 1, 1]
+                'UPDATE users set  WHERE id= $1 RETURNING *',
+                [id]
             );
             res.status(200).send({ status: 1, message: 'User Added', userid: result.rows[0].id });
         } catch (error: any) {
