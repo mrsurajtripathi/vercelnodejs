@@ -7,11 +7,10 @@ export const userController = {
     get: async (req: Request, res: Response) => {
         const client = await pool.connect();
         try {
-            const { rows } = await client.query('SELECT * FROM users');
-            client.release();
+            const { rows } = await pool.query('SELECT * FROM users');
             res.send(rows);
-        } finally {
-            client.release();
+        } catch (error: any) {
+            res.status(400).send({ status: 0, error: error.message || error });
         }
     },
     create: async (req: Request, res: Response) => {
