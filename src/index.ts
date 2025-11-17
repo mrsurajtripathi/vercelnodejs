@@ -1,3 +1,4 @@
+import path from 'path';
 import express from 'express'
 var bodyParser = require('body-parser');
 
@@ -13,6 +14,8 @@ import { swaggerSpec } from './swagger';
 process.on('uncaughtException', (err) => {
   console.log(err);
 });
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.urlencoded({
   limit: '20mb',
