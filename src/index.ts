@@ -23,12 +23,9 @@ app.use(bodyParser.json({
 }));
 
 /** Router Block */
-app.get('/',(req,res)=>{
-  res.send("Hello Babes");
-})
 app.use('/users', userRouter);
 app.use('/blogs', blogRouter);
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 /** End Router Block */
 
