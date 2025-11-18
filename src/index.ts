@@ -9,7 +9,7 @@ import userRouter from './routes/users';
 import blogRouter from './routes/blogs';
 
 import swaggerUi from 'swagger-ui-express';
-import { swaggerSpec } from './swagger';
+import { setupSwagger, swaggerSpec } from './swagger';
 
 process.on('uncaughtException', (err) => {
   console.log(err);
@@ -17,18 +17,21 @@ process.on('uncaughtException', (err) => {
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+
 app.use(bodyParser.urlencoded({
   limit: '20mb',
   extended: true
 }));
+
 app.use(bodyParser.json({
   limit: '20mb'
 }));
 
+setupSwagger(app);
 /** Router Block */
 app.use('/users', userRouter);
 app.use('/blogs', blogRouter);
-app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 /** End Router Block */
 
