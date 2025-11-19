@@ -37,7 +37,6 @@ export function setupSwagger(app: Application) {
   };
 
   const swaggerSpec = swaggerJSDoc(options);
-
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 }
 

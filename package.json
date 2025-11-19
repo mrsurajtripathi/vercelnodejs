@@ -14,10 +14,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@scalar/express-api-reference": "^0.8.24",
     "body-parser": "^2.2.0",
     "express": "^5.1.0",
     "md5": "^2.3.0",
     "pg": "^8.16.3",
+    "serverless-http": "^4.0.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "ts-md5": "^2.0.1"
