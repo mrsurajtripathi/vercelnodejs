@@ -1,0 +1,107 @@
+openapi: 3.1.0
+info:
+  title: F3 API Swagger
+  description: |-
+    Exam Center
+  contact:
+    email: apiteam@mailing.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.12
+servers:
+  - url: http://localhost:8082
+tags:
+  - name: auth
+    description: Authenntication Api
+  - name: store
+    description: Access to Petstore orders
+    externalDocs:
+      description: Find out more about our store
+      url: http://swagger.io
+  - name: user
+    description: Operations about user
+  - name: admin
+    description: Admin Operations
+paths:
+  /login:
+    post:
+      tags:
+        - auth
+      summary: Authenntication of user
+      description: Authenntication
+      operationId: loginuser
+      requestBody:
+        description: login user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Login'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Login'
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref:'#/components/schemas/ApiResponse'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          
+components:
+  schemas:
+    Login:
+      required:
+        - username
+        - password
+      type: object
+      properties:
+        username:
+          type: string
+          examples: [doggie]
+        password:
+          type:string
+          examples:[password]
+      xml:
+        name: login
+    ApiResponse:
+      type: object
+      xml:
+        name: '##default'
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://petstore3.swagger.io/oauth/authorize
+          scopes:
+            "write:pets": modify pets in your account
+            "read:pets": read your pets
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
