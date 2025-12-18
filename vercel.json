@@ -5,11 +5,6 @@
       "src": "src/index.ts", "use": "@vercel/node" 
     }
   ],
-  "functions": {
-    "src/index.ts": {
-      "includeFiles": "{dist/openapi.yaml,node_modules/swagger-ui-dist/**}"
-    }
-  },
   "routes": [
     { "src": "/(.*)", "dest": "/src/index.ts" }
   ]
