@@ -5,6 +5,8 @@ const app = express();
 import userRouter from './routes/users';
 import blogRouter from './routes/blogs';
 import homeRouter from './routes/home';
+import authRouter from './routes/auth';
+import examRouter from './routes/exam';
 
 process.on('uncaughtException', (err) => {
   console.log(err);
@@ -23,10 +25,15 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.use(express.static('public'))
 
+const config:any={};
+config.JWT_SECRET='SURSATOKEN$!4563YTSHSNNH(&hhTYnshsmxcngiwenmweuiwy';
+(process as any).apps = {};
+(process as any).apps = config;
 /** Router Block */
-app.use('/',homeRouter)
+app.use('/',authRouter);
 app.use('/users', userRouter);
 app.use('/blogs', blogRouter);
+app.use('/exams',examRouter);
 
 /** End Router Block */
 

@@ -12,7 +12,7 @@ const router= express.Router();
  *         description: List of users
  */
 
-router.get('/',userController.get);
+router.get('/', apikeyMiddleware, userController.get);
 /**
  * @swagger
  * /users:
@@ -115,6 +115,8 @@ router.delete('/:id', apikeyMiddleware , userController.delete);
  *       201:
  *         description: User created
 */
-router.post('/', apikeyMiddleware , userController.update);
+router.put('/:id', apikeyMiddleware , userController.update);
+router.put('/status/:id', apikeyMiddleware , userController.status);
+router.put('/role/:id', apikeyMiddleware , userController.roleUpdate);
 
 export default router;
