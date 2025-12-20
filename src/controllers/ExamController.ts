@@ -3,6 +3,7 @@ import { pool } from '../databases/db';
 import { AuthRequest } from '../models/authModel';
 import fs from 'fs';
 import csv from 'csv-parser';
+import { Readable } from "stream";
 
 export const examController = {
     create: async (req: AuthRequest, res: Response) => {
@@ -52,8 +53,11 @@ export const examController = {
     },
     uploadcsv: async (req: AuthRequest, res: Response) => {
         const { examId } = req.params;
-        fs.createReadStream(req.file!.path)
-            .pipe(csv())
+        if (!req.file) {
+            return res.status(400).json({ message: "No file uploaded" });
+        }
+        const stream = Readable.from(req.file!.buffer);
+        stream.pipe(csv())
             .on('data', async (row) => {
                 await pool.query(
                     `INSERT INTO questions
