@@ -7,6 +7,7 @@ import blogRouter from './routes/blogs';
 import homeRouter from './routes/home';
 import authRouter from './routes/auth';
 import examRouter from './routes/exam';
+import student from './routes/student'
 
 process.on('uncaughtException', (err) => {
   console.log(err);
@@ -35,6 +36,7 @@ app.use('/',homeRouter);
 app.use('/users', userRouter);
 app.use('/blogs', blogRouter);
 app.use('/exams',examRouter);
+app.use('/student',student);
 
 /** End Router Block */
 
