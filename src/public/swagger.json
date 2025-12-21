@@ -12,11 +12,38 @@
       "url": "https://vercelnodejs-three.vercel.app"
     }
   ],
+  "tags": [
+    {
+      "name": "AUTH",
+      "description": "Access Token Generate"
+    },
+    {
+      "name": "ADMIN",
+      "description": "Access Admin"
+    },
+    {
+      "name": "EXAM",
+      "description": "Access Exams"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "schemes": [
+    "https",
+    "http"
+  ],
   "paths": {
     "/users": {
       "post": {
         "tags": [
-          "default"
+          "ADMIN"
         ],
         "summary": "create users",
         "requestBody": {
@@ -36,32 +63,6 @@
             }
           }
         },
-        "parameters": [
-          {
-            "name": "accept",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          },
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          },
-          {
-            "name": "apikey",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "xxx-xxx-xxx"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Successful response",
@@ -69,39 +70,18 @@
               "application/json": {}
             }
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       },
       "get": {
         "tags": [
-          "default"
+          "ADMIN"
         ],
         "summary": "List Users",
-        "parameters": [
-          {
-            "name": "accept",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          },
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          },
-          {
-            "name": "apikey",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "xxx-xxx-xxx"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Successful response",
@@ -109,13 +89,18 @@
               "application/json": {}
             }
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/users/:id": {
       "put": {
         "tags": [
-          "default"
+          "ADMIN"
         ],
         "summary": "User Update",
         "requestBody": {
@@ -137,28 +122,12 @@
         },
         "parameters": [
           {
-            "name": "accept",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          },
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          },
-          {
-            "name": "apikey",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "xxx-xxx-xxx"
+            "name": "id",
+            "in": "path",
+            "description": "Users Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
           }
         ],
         "responses": {
@@ -168,30 +137,19 @@
               "application/json": {}
             }
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       },
       "delete": {
         "tags": [
-          "default"
+          "ADMIN"
         ],
         "summary": "Update User",
         "parameters": [
-          {
-            "name": "accept",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          },
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          },
           {
             "name": "id",
             "in": "path",
@@ -199,14 +157,6 @@
             "required": true,
             "type": "integer",
             "format": "int64"
-          },
-          {
-            "name": "apikey",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "xxx-xxx-xxx"
           }
         ],
         "responses": {
@@ -216,13 +166,18 @@
               "application/json": {}
             }
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/users/role/:id": {
       "put": {
         "tags": [
-          "default"
+          "ADMIN"
         ],
         "summary": "Role Update",
         "requestBody": {
@@ -239,28 +194,12 @@
         },
         "parameters": [
           {
-            "name": "accept",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          },
-          {
             "name": "id",
             "in": "path",
             "description": "Users Id",
             "required": true,
             "type": "integer",
             "format": "int64"
-          },
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
           }
         ],
         "responses": {
@@ -270,13 +209,18 @@
               "application/json": {}
             }
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/users/status/:id": {
       "put": {
         "tags": [
-          "default"
+          "ADMIN"
         ],
         "summary": "User Status",
         "requestBody": {
@@ -293,36 +237,13 @@
         },
         "parameters": [
           {
-            "name": "accept",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          },
-          {
             "name": "id",
             "in": "path",
             "description": "Users Id",
             "required": true,
             "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          },
-          {
-            "name": "apikey",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "xxx-xxx-xxx"
+            "format": "int64",
+            "example": 1
           }
         ],
         "responses": {
@@ -332,13 +253,18 @@
               "application/json": {}
             }
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/login": {
       "post": {
         "tags": [
-          "default"
+          "AUTH"
         ],
         "summary": "Login",
         "requestBody": {
@@ -354,32 +280,6 @@
             }
           }
         },
-        "parameters": [
-          {
-            "name": "accept",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          },
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          },
-          {
-            "name": "apikey",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "xxx-xxx-xxx"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Successful response",
@@ -393,43 +293,9 @@
     "/exams": {
       "get": {
         "tags": [
-          "default"
+          "EXAM"
         ],
         "summary": "Exams Get",
-        "parameters": [
-          {
-            "name": "accept",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          },
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          },
-          {
-            "name": "apikey",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "xxx-xxx-xxx"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6IjEiLCJlbWFpbCI6ImFkbWluQG1haWwuY29tIiwibmFtZSI6ImFkbWluIiwiaWF0IjoxNzY2MjAzODE3LCJleHAiOjE3NjYyOTAyMTd9.f1OWmt75BtAgoWZ01jzeJ80OGZihLJMkMRSY31sngPc"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Successful response",
@@ -437,11 +303,16 @@
               "application/json": {}
             }
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       },
       "post": {
         "tags": [
-          "default"
+          "EXAM"
         ],
         "summary": "Exams Create",
         "requestBody": {
@@ -457,40 +328,6 @@
             }
           }
         },
-        "parameters": [
-          {
-            "name": "accept",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          },
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          },
-          {
-            "name": "apikey",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "xxx-xxx-xxx"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6IjEiLCJlbWFpbCI6ImFkbWluQG1haWwuY29tIiwibmFtZSI6ImFkbWluIiwiaWF0IjoxNzY2MjAzODE3LCJleHAiOjE3NjYyOTAyMTd9.f1OWmt75BtAgoWZ01jzeJ80OGZihLJMkMRSY31sngPc"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Successful response",
@@ -498,15 +335,30 @@
               "application/json": {}
             }
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/exams/:examid/upload": {
       "post": {
         "tags": [
-          "default"
+          "EXAM"
         ],
         "summary": "Exams Upload Question",
+        "parameters": [
+          {
+            "name": "examid",
+            "in": "path",
+            "description": "Exam Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -522,40 +374,6 @@
             }
           }
         },
-        "parameters": [
-          {
-            "name": "accept",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          },
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          },
-          {
-            "name": "apikey",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "xxx-xxx-xxx"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6IjEiLCJlbWFpbCI6ImFkbWluQG1haWwuY29tIiwibmFtZSI6ImFkbWluIiwiaWF0IjoxNzY2MjAzODE3LCJleHAiOjE3NjYyOTAyMTd9.f1OWmt75BtAgoWZ01jzeJ80OGZihLJMkMRSY31sngPc"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Successful response",
@@ -563,7 +381,12 @@
               "application/json": {}
             }
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     }
   }

@@ -1,122 +1,16 @@
 import express from 'express'
 import { userController } from '../controllers/UserController';
-import {apikeyMiddleware}  from '../middlewares/apikey.middleware';
-const router= express.Router();
-/**
- * @swagger
- * /users:
- *   get:
- *     summary: Get all users
- *     responses:
- *       200:
- *         description: List of users
- */
+import auth from '../middlewares/auth.middleware';
+import roles from '../middlewares/roles.middleware';
 
-router.get('/', apikeyMiddleware, userController.get);
-/**
- * @swagger
- * /users:
- *   post:
- *     summary: Create a user
- *     parameters:
- *       - name: apikey
- *         in: header
- *         description: ''
- *         required: true
- *         schema:
- *           type: string
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - name
- *               - email
- *               - password
- *               - role
- *             properties:
- *               name:
- *                 type: string
- *                 example: firstname
- *               email:
- *                 type: string
- *               password:
- *                 type: string
- *                 example: hash password
- *               role:
- *                 type: string
- *                 example: 1
- *     responses:
- *       201:
- *         description: User created
-*/
-router.post('/', apikeyMiddleware , userController.create);
 
-/**
- * @swagger
- * /users/{id}:
- *   delete:
- *     summary: Delete a user
- *     parameters:
- *       - name: apikey
- *         in: header
- *         description: ''
- *         required: true
- *         schema:
- *           type: string
- *       - name: id
- *         in: path
- *         description: ''
- *         required: true
- *         schema:
- *           type: string
- * 
- *     responses:
- *       201:
- *         description: User created
-*/
-router.delete('/:id', apikeyMiddleware , userController.delete);
+const router = express.Router();
 
-/**
- * @swagger
- * /users/{id}:
- *   put:
- *     summary: Update a user
- *     parameters:
- *       - name: apikey
- *         in: header
- *         description: ''
- *         required: true
- *         schema:
- *           type: string
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - name
- *               - email
- *               - password
- *               - role
- *             properties:
- *               name:
- *                 type: string
- *                 example: firstname
- *               email:
- *                 type: string
- *               password:
- *                 type: string
- *                 example: hash password
- *     responses:
- *       201:
- *         description: User created
-*/
-router.put('/:id', apikeyMiddleware , userController.update);
-router.put('/status/:id', apikeyMiddleware , userController.status);
-router.put('/role/:id', apikeyMiddleware , userController.roleUpdate);
+router.get('/', auth, roles('1'), userController.get);
+router.post('/', auth, roles('1'), userController.create);
+router.delete('/:id', auth, roles('1'), userController.delete);
+router.put('/:id', auth, roles('1'), userController.update);
+router.put('/status/:id', auth, roles('1'), userController.status);
+router.put('/role/:id', auth, roles('1'), userController.roleUpdate);
 
 export default router;
