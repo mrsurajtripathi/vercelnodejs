@@ -1,6 +1,7 @@
 import express from 'express'
 import bodyParser from "body-parser";
 const app = express();
+import cors from 'cors';
 
 import userRouter from './routes/users';
 import blogRouter from './routes/blogs';
@@ -25,11 +26,17 @@ app.use(bodyParser.json({
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.use(express.static('public'))
+app.use(cors({
+  origin: "*", // Allow all origins (change to specific domain for security)
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
 const config:any={};
 config.JWT_SECRET='SURSATOKEN$!4563YTSHSNNH(&hhTYnshsmxcngiwenmweuiwy';
 (process as any).apps = {};
 (process as any).apps = config;
+
 /** Router Block */
 app.use('/',authRouter);
 app.use('/',homeRouter);
