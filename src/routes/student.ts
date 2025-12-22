@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/exams', auth, roles('2'), getExams);
 // router.post('/exams/:examId/submit', authMiddleware, rolesMiddleware('2'), submitExams);
 router.post('/exams/:examId/start',auth, roles('2'), startExam);
-router.get('/attempts/:attemptId/time',auth, roles('2'), remainingTime);
-router.post('/attempts/:attemptId/submit', auth, roles('2'), submitExams);
+router.get('/attempt/:attemptId/time',auth, roles('2'), remainingTime);
+router.post('/attempt/:attemptId/submit', auth, roles('2'), submitExams);
 
 export default router;

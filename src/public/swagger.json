@@ -24,6 +24,10 @@
     {
       "name": "EXAM",
       "description": "Access Exams"
+    },
+    {
+      "name": "STUDENT",
+      "description": "Access Student"
     }
   ],
   "components": {
@@ -97,7 +101,7 @@
         ]
       }
     },
-    "/users/:id": {
+    "/users/{id}": {
       "put": {
         "tags": [
           "ADMIN"
@@ -174,7 +178,7 @@
         ]
       }
     },
-    "/users/role/:id": {
+    "/users/role/{id}": {
       "put": {
         "tags": [
           "ADMIN"
@@ -217,7 +221,7 @@
         ]
       }
     },
-    "/users/status/:id": {
+    "/users/status/{id}": {
       "put": {
         "tags": [
           "ADMIN"
@@ -343,7 +347,7 @@
         ]
       }
     },
-    "/exams/:examid/upload": {
+    "/exams/{examid}/upload": {
       "post": {
         "tags": [
           "EXAM"
@@ -368,6 +372,165 @@
                   "file": {
                     "type": "string",
                     "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/student/exams": {
+      "get": {
+        "tags": [
+          "STUDENT"
+        ],
+        "summary": "List Exams",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/student/exams/{examId}/start": {
+      "post": {
+        "tags": [
+          "STUDENT"
+        ],
+        "summary": "Start Exams",
+        "parameters": [
+          {
+            "name": "examId",
+            "in": "path",
+            "description": "Exam Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "options",
+            "in": "path",
+            "description": "Exam Id",
+            "required": true,
+            "type": "string",
+            "enum": ["start", "time"],
+            "example":"start"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/student/attempt/{attemptid}/{options}": {
+      "get": {
+        "tags": [
+          "STUDENT"
+        ],
+        "summary": "Remaning times",
+        "parameters": [
+          {
+            "name": "examId",
+            "in": "path",
+            "description": "Exam Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "options",
+            "in": "path",
+            "description": "Exam Id",
+            "required": true,
+            "type": "string",
+            "enum": ["time"],
+            "example":"time"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "STUDENT"
+        ],
+        "summary": "Start Exams",
+        "parameters": [
+          {
+            "name": "examId",
+            "in": "path",
+            "description": "Exam Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "options",
+            "in": "path",
+            "description": "Exam Id",
+            "required": true,
+            "type": "string",
+            "enum": ["submit"],
+            "example":"submit"
+          }
+        ],        
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "question_id": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "selected_option": {
+                    "type": "string",
+                    "enum": ["A", "B", "C", "D"],
+                    "example": "B"
                   }
                 }
               }
