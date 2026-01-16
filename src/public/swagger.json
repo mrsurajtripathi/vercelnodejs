@@ -304,6 +304,27 @@
         ]
       }
     },
+    "/tags": {
+      "get": {
+        "tags": [
+          "BLOGS"
+        ],
+        "summary": "List Tags",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
     "/users": {
       "post": {
         "tags": [
