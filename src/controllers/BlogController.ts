@@ -289,6 +289,10 @@ export const BlogController = {
         } finally {
             client.release();
         }
+    },
+    getTags:async(req:Request,res:Response)=>{
+        const { rows } = await pool.query('SELECT * from tags ORDER BY name');
+        res.json(rows);
     }
 }
 

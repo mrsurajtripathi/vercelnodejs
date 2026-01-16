@@ -11,5 +11,6 @@ router.delete('/blogs/trash/:id', BlogController.trashBlog);
 router.get("/blogs/:slug", BlogController.getBlogBySlug);
 router.get('/categories', BlogController.getCategory);
 router.post('/categories', BlogController.createCategory);
+router.get('/tags', BlogController.getTags);
 
 export default router;
