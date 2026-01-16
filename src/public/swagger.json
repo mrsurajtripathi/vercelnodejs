@@ -107,6 +107,149 @@
         ]
       }
     },
+    "/blogs/{id}": {
+      "get": {
+        "tags": [
+          "BLOGS"
+        ],
+        "summary": "List Blogs",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Slug",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "BLOGS"
+        ],
+        "summary": "update blog",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "id": 0,
+                  "title": "Node.js with PostgreSQL",
+                  "content": "This is a blog about Node.js and Postgres",
+                  "categoryId": 1,
+                  "meta_title": "Updated Node.js SEO Blog",
+                  "meta_description": "Updated description for SEO",
+                  "meta_keywords": "nodejs, seo, blog, postgres",
+                  "tags": [
+                    "nodejs",
+                    "postgres",
+                    "backend"
+                  ],
+                  "published":true
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Blog Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "BLOGS"
+        ],
+        "summary": "Delete Blog",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Blog Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "blogs/trash/{id}":{
+      "delete": {
+        "tags": [
+          "BLOGS"
+        ],
+        "summary": "Delete Blog Permanently",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Blog Id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
     "/blogs/categories": {
       "post": {
         "tags": [
