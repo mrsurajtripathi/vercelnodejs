@@ -41,7 +41,7 @@ config.JWT_SECRET='SURSATOKEN$!4563YTSHSNNH(&hhTYnshsmxcngiwenmweuiwy';
 app.use('/',authRouter);
 app.use('/',homeRouter);
 app.use('/users', userRouter);
-app.use('/blogs', blogRouter);
+app.use(blogRouter);
 app.use('/exams',examRouter);
 app.use('/student',student);
 
