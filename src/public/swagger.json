@@ -9,6 +9,9 @@
       "url": "http://localhost:3000"
     },
     {
+      "url": "https://auth.surajtripathi.com"
+    },
+    {
       "url": "https://vercelnodejs-three.vercel.app"
     }
   ],
@@ -44,6 +47,120 @@
     "http"
   ],
   "paths": {
+    "/blogs": {
+      "post": {
+        "tags": [
+          "BLOGS"
+        ],
+        "summary": "create blog",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "id": 0,
+                  "title": "Node.js with PostgreSQL",
+                  "content": "This is a blog about Node.js and Postgres",
+                  "categoryId": 1,
+                  "tags": [
+                    "nodejs",
+                    "postgres",
+                    "backend"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "BLOGS"
+        ],
+        "summary": "List Blogs",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/blogs/categories": {
+      "post": {
+        "tags": [
+          "BLOGS"
+        ],
+        "summary": "create category",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "id": 0,
+                  "name": "java",
+                  "slug": "java-language"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "BLOGS"
+        ],
+        "summary": "List Category",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
     "/users": {
       "post": {
         "tags": [
@@ -435,8 +552,11 @@
             "description": "Exam Id",
             "required": true,
             "type": "string",
-            "enum": ["start", "time"],
-            "example":"start"
+            "enum": [
+              "start",
+              "time"
+            ],
+            "example": "start"
           }
         ],
         "responses": {
@@ -475,8 +595,10 @@
             "description": "Exam Id",
             "required": true,
             "type": "string",
-            "enum": ["time"],
-            "example":"time"
+            "enum": [
+              "time"
+            ],
+            "example": "time"
           }
         ],
         "responses": {
@@ -513,10 +635,12 @@
             "description": "Exam Id",
             "required": true,
             "type": "string",
-            "enum": ["submit"],
-            "example":"submit"
+            "enum": [
+              "submit"
+            ],
+            "example": "submit"
           }
-        ],        
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -529,7 +653,12 @@
                   },
                   "selected_option": {
                     "type": "string",
-                    "enum": ["A", "B", "C", "D"],
+                    "enum": [
+                      "A",
+                      "B",
+                      "C",
+                      "D"
+                    ],
                     "example": "B"
                   }
                 }
