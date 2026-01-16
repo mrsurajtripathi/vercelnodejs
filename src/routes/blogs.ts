@@ -3,12 +3,12 @@ import { BlogController } from '../controllers/BlogController';
 
 const router = express.Router();
 
-router.post('/', BlogController.create);
-router.get('/', BlogController.get);
-router.put('/:id', BlogController.updateBlog);
-router.delete('/:id', BlogController.deleteBlog);
-router.delete('/trash/:id', BlogController.trashBlog);
-router.get("/:slug", BlogController.getBlogBySlug);
+router.post('/blogs', BlogController.create);
+router.get('/blogs', BlogController.get);
+router.put('/blogs/:id', BlogController.updateBlog);
+router.delete('/blogs/:id', BlogController.deleteBlog);
+router.delete('/blogs/trash/:id', BlogController.trashBlog);
+router.get("/blogs/:slug", BlogController.getBlogBySlug);
 router.get('/categories', BlogController.getCategory);
 router.post('/categories', BlogController.createCategory);
 
