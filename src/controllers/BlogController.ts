@@ -58,6 +58,7 @@ export const BlogController = {
       SELECT 
         b.id, b.title, b.slug, b.content,
         c.name AS category,
+        c.id as categoryid,
         ARRAY_AGG(t.name) AS tags
       FROM blogs b
       LEFT JOIN categories c ON b.category_id = c.id
