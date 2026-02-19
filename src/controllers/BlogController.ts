@@ -64,6 +64,7 @@ export const BlogController = {
       LEFT JOIN categories c ON b.category_id = c.id
       LEFT JOIN blog_tags bt ON b.id = bt.blog_id
       LEFT JOIN tags t ON bt.tag_id = t.id
+      GROUP BY b.id,c.name,c.id
       ORDER BY b.created_at DESC
     `);
 
