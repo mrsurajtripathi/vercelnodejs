@@ -9,6 +9,7 @@ import homeRouter from './routes/home';
 import authRouter from './routes/auth';
 import examRouter from './routes/exam';
 import student from './routes/student'
+import { title } from 'process';
 
 process.on('uncaughtException', (err) => {
   console.log(err);
@@ -38,7 +39,11 @@ config.JWT_SECRET='SURSATOKEN$!4563YTSHSNNH(&hhTYnshsmxcngiwenmweuiwy';
 (process as any).apps = config;
 
 /** Router Block */
-app.use('/',authRouter);
+app.get('/', (req, res) => {
+    res.render('index',{title:"Suraj Sample API Documentation"});
+});
+
+app.use('/auth',authRouter);
 app.use('/docs',homeRouter);
 app.use('/users', userRouter);
 app.use(blogRouter);
