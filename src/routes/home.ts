@@ -16,7 +16,6 @@ router.get('/openapi.json', (req, res) => {
             console.error('Error reading file:', err.message);
             return res.status(500).json({ error: 'Failed to read JSON file' });
         }
-
         try {
             const jsonData = JSON.parse(data); // Parse JSON safely
             res.json(jsonData); // Send JSON response

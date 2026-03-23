@@ -14,10 +14,20 @@ export const userController = {
     },
     create: async (req: Request, res: Response) => {
         try {
-            const { name, email, password } = req.body;
+            const { name, email, password, phone } = req.body;
+            if (!name || !email || !password || !phone) {
+                res.status(422).send({ status: 0, error: 'Invalid Parameter' });
+                return;
+            }
+
+            if (phone.length != 10) {
+                res.status(422).send({ status: 0, error: 'Invalid Phone Number' });
+                return;
+            }
+
             const result = await pool.query(
-                'INSERT INTO users(name,email,password,status,role) VALUES($1, $2, $3, $4,$5) RETURNING *',
-                [name, email, md5(password) , 0 ,2]
+                'INSERT INTO users(name,email,password,phone,status,role) VALUES($1, $2, $3, $4,$5,$6) RETURNING *',
+                [name, email, md5(password), phone, , 0, 2]
             );
             res.status(200).send({ status: 1, message: 'User Added', userid: result.rows[0].id });
         } catch (error: any) {
@@ -31,7 +41,7 @@ export const userController = {
         }
         try {
             await pool.query('DELETE FROM users WHERE id = $1', [id]);
-            res.status(200).send({ status: 1, message: 'User deleted'});
+            res.status(200).send({ status: 1, message: 'User deleted' });
         } catch (error: any) {
             res.status(400).send({ status: 0, error: error.message || error });
         }
@@ -42,47 +52,77 @@ export const userController = {
             if (!id) {
                 res.status(200).send({ status: 1, error: 'Invalid User' });
             }
-            const { name, password } = req.body;
+            const { name, password, phone } = req.body;
+            if (!name || !password) {
+                res.status(422).send({ status: 0, error: 'Invalid Parameter' });
+                return;
+            }
+
+            if (phone.length != 10) {
+                res.status(422).send({ status: 0, error: 'Invalid Phone Number' });
+                return;
+            }
+
             const result = await pool.query(
-                'UPDATE users set name=$2, password=$3 WHERE id= $1 RETURNING *',
-                [id,name,md5(password)]
+                'UPDATE users set name=$2, password=$3 ,phone= $4 WHERE id= $1 RETURNING *',
+                [id, name, md5(password), phone]
             );
             res.status(200).send({ status: 1, message: 'User Updated', userid: result.rows[0].id });
         } catch (error: any) {
             res.status(400).send({ status: 0, error: error.message || error });
         }
     },
-    status:async (req:Request,res:Response)=>{
+    status: async (req: Request, res: Response) => {
         try {
             let id = req.params.id || undefined;
             if (!id) {
                 res.status(200).send({ status: 1, error: 'Invalid User' });
             }
-            const { status } = req.body; 
+            const { status } = req.body;
             const result = await pool.query(
                 'UPDATE users set status=$2 WHERE id= $1 RETURNING *',
-                [id,status]
+                [id, status]
             );
             res.status(200).send({ status: 1, message: 'User Updated', userid: result.rows[0].id });
         } catch (error: any) {
             res.status(400).send({ status: 0, error: error.message || error });
         }
     },
-    roleUpdate:async (req:Request,res:Response)=>{
-      try {
+    roleUpdate: async (req: Request, res: Response) => {
+        try {
             let id = req.params.id || undefined;
             const { roleid } = req.body;
-            if([1,2].indexOf(roleid)==-1){
-                res.status(422).send({ status: 0, error: 'Invalid Role Type' }); 
+            if ([1, 2].indexOf(roleid) == -1) {
+                res.status(422).send({ status: 0, error: 'Invalid Role Type' });
                 return;
             }
             const result = await pool.query(
                 'UPDATE users set status=$2 WHERE id= $1 RETURNING *',
-                [id,roleid]
+                [id, roleid]
             );
-            res.status(200).send({ status: 1, message: 'Role Updated'});
+            res.status(200).send({ status: 1, message: 'Role Updated' });
         } catch (error: any) {
             res.status(400).send({ status: 0, error: error.message || error });
-        }  
+        }
+    },
+    register: async (req: Request, res: Response) => {
+        try {
+            const { name, email, password, phone } = req.body;
+            if (!name || !email || !password || !phone) {
+                res.status(422).send({ status: 0, error: 'Invalid Parameter' });
+                return;
+            }
+            if (phone.length != 10) {
+                res.status(422).send({ status: 0, error: 'Invalid Phone Number' });
+                return;
+            }
+            const result = await pool.query(
+                'INSERT INTO users(name,email,password,phone,status,role) VALUES($1, $2, $3, $4,$5,$6) RETURNING *',
+                [name, email, md5(password), phone, 0, 2]
+            );
+            res.status(200).send({ status: 1, message: 'User Registered', email: result.rows[0].email });
+        } catch (error: any) {
+            res.status(400).send({ status: 0, error: error.message || error });
+        }
     }
 }
