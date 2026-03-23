@@ -849,7 +849,7 @@
     "/auth/register": {
       "post": {
         "tags": [
-          "ADMIN"
+          "AUTH"
         ],
         "summary": "register users",
         "requestBody": {

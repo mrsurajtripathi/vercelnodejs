@@ -116,6 +116,13 @@ export const userController = {
                 res.status(422).send({ status: 0, error: 'Invalid Phone Number' });
                 return;
             }
+            const userExist = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+            console.log(userExist);
+            if (userExist && userExist.rowCount && parseInt(userExist.rowCount) > 0) {
+                res.status(422).send({ status: 0, error: 'Email already registered' });
+                return;
+            }
+
             const result = await pool.query(
                 'INSERT INTO users(name,email,password,phone,status,role) VALUES($1, $2, $3, $4,$5,$6) RETURNING *',
                 [name, email, md5(password), phone, 0, 2]
