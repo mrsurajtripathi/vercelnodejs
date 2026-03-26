@@ -116,8 +116,7 @@ export const userController = {
                 return;
             }
             const userExist = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
-            console.log(userExist);
-            if (userExist && userExist.rowCount && parseInt(userExist.rowCount) > 0) {
+            if (userExist && userExist.rowCount && userExist.rowCount > 0) {
                 res.status(422).send({ status: 0, error: 'Email already registered' });
                 return;
             }
