@@ -9,7 +9,7 @@ import homeRouter from './routes/home';
 import authRouter from './routes/auth';
 import examRouter from './routes/exam';
 import student from './routes/student'
-import { title } from 'process';
+import devsRouter from './routes/dev';
 
 process.on('uncaughtException', (err) => {
   console.log(err);
@@ -49,6 +49,7 @@ app.use('/users', userRouter);
 app.use(blogRouter);
 app.use('/exams',examRouter);
 app.use('/student',student);
+app.use('/dev',devsRouter);
 
 /** End Router Block */
 
