@@ -159,7 +159,7 @@
                     "postgres",
                     "backend"
                   ],
-                  "published":true
+                  "published": true
                 }
               }
             }
@@ -219,7 +219,7 @@
         ]
       }
     },
-    "blogs/trash/{id}":{
+    "blogs/trash/{id}": {
       "delete": {
         "tags": [
           "BLOGS"
@@ -864,6 +864,59 @@
                   "phone": "1234567890",
                   "role": "2",
                   "status": 1
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/partners": {
+      "get": {
+        "tags": [
+          "PARTNERS"
+        ],
+        "summary": "Get Applications",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "PARTNERS"
+        ],
+        "summary": "Create Application",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "name": "Application Name",
+                  "redirect_uri": "https://example.com/callback"
                 }
               }
             }

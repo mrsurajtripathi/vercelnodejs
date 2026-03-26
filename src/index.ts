@@ -48,6 +48,7 @@ app.use('/users', userRouter);
 app.use(blogRouter);
 app.use('/exams',examRouter);
 app.use('/student',student);
+app.use('/partners', require('./routes/partners').default);
 
 /** End Router Block */
 
