@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { pool } from '../databases/db';
-import { v4 } from 'uuid';
 
 export const oauthController = {
     create: async (req: Request, res: Response) => {
@@ -9,8 +8,8 @@ export const oauthController = {
             res.send({ status: 0, error: 'Invalid Parameter' });
             return;
         }
-        const client_id = v4();
-        const client_secret = v4();
+        const client_id = '';    //v4();
+        const client_secret = ''; //v4();
         const { rows } = await pool.query(
             `INSERT INTO oauth_clients (name, client_id, client_secret,redirect_uri,developerid)
      VALUES ($1,$2,$3,$4,$5) RETURNING *`,
