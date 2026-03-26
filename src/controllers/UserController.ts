@@ -1,4 +1,3 @@
-
 import { Request, Response } from 'express';
 import { pool } from '../databases/db';
 import md5 from "md5";
