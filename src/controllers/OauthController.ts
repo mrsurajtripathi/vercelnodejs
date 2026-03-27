@@ -9,8 +9,8 @@ export const oauthController = {
             res.send({ status: 0, error: 'Invalid Parameter' });
             return;
         }
-        const client_id = uuid4();    //v4();
-        const client_secret = ''; //v4();
+        const client_id = uuid4();
+        const client_secret = uuid4(); 
         const { rows } = await pool.query(
             `INSERT INTO oauth_clients (name, client_id, client_secret,redirect_uri,developerid)
      VALUES ($1,$2,$3,$4,$5) RETURNING *`,
