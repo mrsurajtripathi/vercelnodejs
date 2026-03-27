@@ -1,5 +1,8 @@
 {
   "version": 2,
+  "env": {
+    "NODE_OPTIONS": "--experimental-require-module"
+  },
   "builds": [
     { 
       "src": "src/index.ts", "use": "@vercel/node" 
