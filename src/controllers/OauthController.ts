@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { pool } from '../databases/db';
-import { v4  as uuid4} from 'uuid';
+import { v4 as uuid4 } from 'uuid';
 
 export const oauthController = {
     create: async (req: Request, res: Response) => {
@@ -10,7 +10,7 @@ export const oauthController = {
             return;
         }
         const client_id = uuid4();
-        const client_secret = uuid4(); 
+        const client_secret = uuid4();
         const { rows } = await pool.query(
             `INSERT INTO oauth_clients (name, client_id, client_secret,redirect_uri,developerid)
      VALUES ($1,$2,$3,$4,$5) RETURNING *`,
@@ -23,7 +23,8 @@ export const oauthController = {
         res.send(rows);
     },
     authorize: async (req: Request, res: Response) => {
-        const { response_type, client_id, redirect_uri, scope, state } = req.query;
+        const { response_type, client_id, redirect_uri, scope, state, code_challenge,
+            code_challenge_method } = req.query;
         if (!response_type || !client_id || !redirect_uri) {
             res.send({ status: 0, error: 'Invalid Parameter' });
             return;
@@ -38,14 +39,13 @@ export const oauthController = {
             res.send({ status: 0, error: 'Invalid Redirect URI' });
             return;
         }
-        // For simplicity, we will skip user authentication and consent
-        const authorization_code = uuid4();
+        const code = uuid4();
         await pool.query(
-            `INSERT INTO oauth_authorization_codes (code, client_id, redirect_uri, scope, user_id)
-     VALUES ($1, $2, $3, $4, $5)`,
-            [authorization_code, client_id, redirect_uri, scope || '', 1]
+            `INSERT INTO oauth_auth_codes
+    (code, code_challenge, code_challenge_method, expires_at, client_id, user_id)
+    VALUES ($1,$2,$3,NOW() + interval '10 minutes',$4,$5)`,
+            [code, code_challenge, code_challenge_method, client_id, 1]
         );
-        const redirectUrl = `${redirect_uri}?code=${authorization_code}&state=${state || ''}`;
-        res.redirect(redirectUrl);  
+        return res.send({ status: 1, redirecturi: `${redirect_uri}?code=${code}&state=${state}` });
     }
 }
