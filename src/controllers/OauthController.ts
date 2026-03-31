@@ -21,5 +21,31 @@ export const oauthController = {
     getlist: async (req: Request, res: Response) => {
         const { rows } = await pool.query('SELECT * FROM oauth_clients');
         res.send(rows);
+    },
+    authorize: async (req: Request, res: Response) => {
+        const { response_type, client_id, redirect_uri, scope, state } = req.query;
+        if (!response_type || !client_id || !redirect_uri) {
+            res.send({ status: 0, error: 'Invalid Parameter' });
+            return;
+        }
+        const { rows } = await pool.query('SELECT * FROM oauth_clients WHERE client_id = $1', [client_id]);
+        if (rows.length === 0) {
+            res.send({ status: 0, error: 'Invalid Client ID' });
+            return;
+        }
+        const client = rows[0];
+        if (client.redirect_uri !== redirect_uri) {
+            res.send({ status: 0, error: 'Invalid Redirect URI' });
+            return;
+        }
+        // For simplicity, we will skip user authentication and consent
+        const authorization_code = uuid4();
+        await pool.query(
+            `INSERT INTO oauth_authorization_codes (code, client_id, redirect_uri, scope, user_id)
+     VALUES ($1, $2, $3, $4, $5)`,
+            [authorization_code, client_id, redirect_uri, scope || '', 1]
+        );
+        const redirectUrl = `${redirect_uri}?code=${authorization_code}&state=${state || ''}`;
+        res.redirect(redirectUrl);  
     }
 }

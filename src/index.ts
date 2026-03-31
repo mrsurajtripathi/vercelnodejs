@@ -49,6 +49,7 @@ app.use(blogRouter);
 app.use('/exams',examRouter);
 app.use('/student',student);
 app.use('/partners', require('./routes/partners').default);
+app.use('/oauth', require('./routes/oauth').default);
 
 /** End Router Block */
 

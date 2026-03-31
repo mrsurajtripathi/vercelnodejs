@@ -17,6 +17,7 @@
     "@scalar/express-api-reference": "^0.8.24",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/multer": "^2.0.0",
+    "axios": "^1.13.6",
     "bcrypt": "^6.0.0",
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
