@@ -936,6 +936,96 @@
           }
         ]
       }
+    },
+    "/oauth/authorize": {
+      "get": {
+        "tags": [
+          "Oauth2"
+        ],
+        "summary": "auth generate code",
+        "parameters": [
+          {
+            "name": "client_id",
+            "description": "Client ID",
+            "in": "query",
+            "required": true,
+            "example": "a160c673-da31-4c75-af01-c95fd71d16d1"
+          },
+          {
+            "name": "response_type",
+            "description": "response type such as code or id_token",
+            "in": "query",
+            "type": "string",
+            "enum": [
+              "code",
+              "id_token"
+            ],
+            "required": true,
+            "example": "code"
+          },
+          {
+            "name": "redirect_uri",
+            "description": "response type such as code or id_token",
+            "in": "query",
+            "required": true,
+            "example": "https://example.com/callback"
+          },
+          {
+            "name": "scope",
+            "description": "response type such as code or id_token",
+            "in": "query",
+            "required": true,
+            "example": "read"
+          },
+          {
+            "name": "state",
+            "description": "response type such as code or id_token",
+            "in": "query",
+            "required": true,
+            "example": "xyz123"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "example": "https://example.com/callback?code=authorization_code_here",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/oauth/token": {
+      "post": {
+        "tags": [
+          "Oauth2"
+        ],
+        "summary": "auth generate token",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "client_id": "a160c673-da31-4c75-af01-c95fd71d16d1",
+                  "code_verifier": "random_string_here",
+                  "code": "authorization_code_here",
+                  "client_secret": "client_secret_here"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
     }
   }
 }
