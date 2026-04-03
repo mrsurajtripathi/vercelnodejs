@@ -9,6 +9,7 @@ import homeRouter from './routes/home';
 import authRouter from './routes/auth';
 import examRouter from './routes/exam';
 import student from './routes/student'
+import { connectRedis } from './databases/redis';
 
 process.on('uncaughtException', (err) => {
   console.log(err);
@@ -52,6 +53,12 @@ app.use('/partners', require('./routes/partners').default);
 app.use('/oauth', require('./routes/oauth').default);
 
 /** End Router Block */
+connectRedis().then(() => {
+    console.log('Connected to Redis');
+}).catch((err) => {
+    console.error('Failed to connect to Redis', err);
+    process.exit(1);
+});
 
 app.listen(3000, () => console.log("Server ready on port 3000."));
 

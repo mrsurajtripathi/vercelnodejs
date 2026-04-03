@@ -1,9 +1,11 @@
 import { Request, Response } from 'express';
 import { pool } from '../databases/db';
 import { v4 as uuid4 } from 'uuid';
-import { createHash } from 'crypto';
 import { generateCodeChallenge } from '../utils/pkce';
 import { sign } from 'jsonwebtoken';
+import { redisClient } from '../databases/redis';
+const ACCESS_TTL = 3600;
+const REFRESH_TTL = 60 * 60 * 24 * 7;
 
 export const oauthController = {
     create: async (req: Request, res: Response) => {
@@ -103,15 +105,29 @@ export const oauthController = {
         );
 
         const refreshToken = uuid4();
-        await pool.query(
-            `INSERT INTO oauth_tokens
-    (access_token, refresh_token, expires_at, client_id, user_id)
-    VALUES ($1,$2,NOW()+interval '1 hour',$3,$4)`,
-            [accessToken, refreshToken, client_id, authCode.user_id]
+        // Store in Redis
+        await redisClient.set(
+            `oauth:access:${accessToken}`,
+            JSON.stringify({
+            user_id: authCode.user_id,
+            client_id
+            }),
+            { EX: ACCESS_TTL }
         );
 
+
+
+        await redisClient.set(
+            `oauth:refresh:${refreshToken}`,
+            JSON.stringify({
+            user_id: authCode.user_id,
+            client_id
+            }),
+            { EX: REFRESH_TTL }
+        );
+        
         await pool.query(
-            'DELETE FROM oauth_auth_codes WHERE code=$1',
+            'DELETE FROM authorization_codes WHERE code=$1',
             [code]
         );
 
